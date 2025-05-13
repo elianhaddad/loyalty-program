@@ -6,6 +6,10 @@ export default withAuth((req) => {
   const { nextUrl } = req
   const isAdmin = ((req.nextauth?.token?.user as { role?: string })?.role === "admin");
 
+  if (nextUrl.pathname === "/api/setup") {
+    return NextResponse.next()
+  }
+
   const isAuthRoute = nextUrl.pathname.startsWith("/auth") || nextUrl.pathname.startsWith("/api/auth")
   const isApiRoute = nextUrl.pathname.startsWith("/api")
   const isAdminRoute = nextUrl.pathname.startsWith("/admin")
@@ -47,7 +51,8 @@ export default withAuth((req) => {
 export const config = {
   matcher: [
     // everything except Next.js internals, "/auth/*" and "/api/auth/*"
-    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth).*)"
+    // everything except Next.js internals, "/auth/*" and "/api/auth/*" and "/api/setup"
+    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth|api/setup).*)"
   ],
   runtime: "nodejs",
 }

@@ -6,10 +6,8 @@ import connectDB from "@/lib/db"
 import User from "@/lib/models/user"
 import bcrypt from "bcryptjs"
 
-// Asegúrate de que este archivo solo se ejecute en el servidor
-export const runtime = "nodejs"
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
+// Configuración de NextAuth
+const authConfig = {
   adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
@@ -70,4 +68,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
-})
+}
+
+// Exportar las funciones de NextAuth
+export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)
+
+// También exportar auth como default para facilitar su uso
+export default auth

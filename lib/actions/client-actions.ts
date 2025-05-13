@@ -1,7 +1,7 @@
 "use server"
 
-import connectDB from "../db"
-import Client from "../models/client"
+import connectDB from "@/lib/db-server" // Usar la versión de servidor
+import Client from "@/lib/models/client"
 import { revalidatePath } from "next/cache"
 
 export async function getClients() {

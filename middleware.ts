@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server"
 import { auth } from "@/auth"
 
-// Asegúrate de que este archivo solo se ejecute en el servidor
-export const runtime = "nodejs"
-
 export default auth((req) => {
   const isLoggedIn = !!req.auth
   const { nextUrl } = req

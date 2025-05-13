@@ -6,6 +6,9 @@ import connectDB from "@/lib/db"
 import User from "@/lib/models/user"
 import bcrypt from "bcryptjs"
 
+// Asegúrate de que este archivo solo se ejecute en el servidor
+export const runtime = "nodejs"
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: MongoDBAdapter(clientPromise),
   providers: [

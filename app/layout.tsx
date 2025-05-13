@@ -3,11 +3,10 @@ import { Inter } from "next/font/google"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter"
 import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
-import { SessionProvider } from "next-auth/react"
 import theme from "@/lib/theme"
-import Navbar from "@/components/navbar"
 import "./globals.css"
 import { auth } from "@/auth"
+import ClientWrapper from "@/components/client-wrapper"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -27,15 +26,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <SessionProvider session={session}>
-          <AppRouterCacheProvider>
-            <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Navbar />
+        <AppRouterCacheProvider>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <ClientWrapper session={session}>
               <main style={{ padding: "20px" }}>{children}</main>
-            </ThemeProvider>
-          </AppRouterCacheProvider>
-        </SessionProvider>
+            </ClientWrapper>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   )

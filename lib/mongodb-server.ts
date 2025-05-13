@@ -1,4 +1,3 @@
-// Este archivo solo debe importarse en componentes del servidor o server actions
 import { MongoClient } from "mongodb"
 
 if (!process.env.MONGODB_URI) {

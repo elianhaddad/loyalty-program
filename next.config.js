@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Habilitar el middleware de Node.js
+  // Configuración actualizada para Next.js 15.4
   experimental: {
-    serverComponentsExternalPackages: ["mongoose", "mongodb"],
     nodeMiddleware: true,
   },
   // Otras configuraciones

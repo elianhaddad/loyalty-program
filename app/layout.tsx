@@ -5,7 +5,8 @@ import { ThemeProvider } from "@mui/material/styles"
 import CssBaseline from "@mui/material/CssBaseline"
 import theme from "@/lib/theme"
 import "./globals.css"
-import { auth } from "@/auth"
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth";
 import ClientWrapper from "@/components/client-wrapper"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -21,7 +22,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const session = await auth()
+  const session = await getServerSession(authOptions);
 
   return (
     <html lang="en">

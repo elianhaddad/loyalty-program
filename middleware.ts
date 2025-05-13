@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
-import { auth } from "@/auth"
+import { withAuth } from "next-auth/middleware";
 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth
+export default withAuth((req) => {
+  const isLoggedIn = !!req.nextauth?.token
   const { nextUrl } = req
-  const isAdmin = req.auth?.user?.role === "admin"
+  const isAdmin = ((req.nextauth?.token?.user as { role?: string })?.role === "admin");
 
-  const isAuthRoute = nextUrl.pathname.startsWith("/auth")
+  const isAuthRoute = nextUrl.pathname.startsWith("/auth") || nextUrl.pathname.startsWith("/api/auth")
   const isApiRoute = nextUrl.pathname.startsWith("/api")
   const isAdminRoute = nextUrl.pathname.startsWith("/admin")
   const isSetupRoute = nextUrl.pathname.startsWith("/setup")
@@ -45,5 +45,9 @@ export default auth((req) => {
 })
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    // everything except Next.js internals, "/auth/*" and "/api/auth/*"
+    "/((?!_next/static|_next/image|favicon.ico|auth|api/auth).*)"
+  ],
+  runtime: "nodejs",
 }

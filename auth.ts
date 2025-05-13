@@ -1,14 +1,8 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import clientPromise from "@/lib/mongodb"
-import connectDB from "@/lib/db"
-import User from "@/lib/models/user"
-import bcrypt from "bcryptjs"
 
-// Configuración de NextAuth
+// Configuración de NextAuth sin importar MongoDB directamente
 const authConfig = {
-  adapter: MongoDBAdapter(clientPromise),
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -20,6 +14,11 @@ const authConfig = {
         if (!credentials?.email || !credentials?.password) {
           return null
         }
+
+        // Importar MongoDB dinámicamente solo en el servidor
+        const { default: connectDB } = await import("./lib/db-server")
+        const { default: User } = await import("./lib/models/user")
+        const { default: bcrypt } = await import("bcryptjs")
 
         await connectDB()
 
@@ -72,6 +71,8 @@ const authConfig = {
 
 // Exportar las funciones de NextAuth
 export const { handlers, auth, signIn, signOut } = NextAuth(authConfig)
+
+export const authOptions = authConfig;
 
 // También exportar auth como default para facilitar su uso
 export default auth

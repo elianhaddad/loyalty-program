@@ -30,7 +30,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { createScheduledMessage, updateScheduledMessage } from "@/lib/actions/scheduled-message-actions"
 import type { MessageType, RecurrencePattern } from "@/lib/models/scheduled-message"
-import { t } from '@/i18n'
+import { t } from "@/lib/i18n"
 
 interface ScheduledMessageFormProps {
   message?: {

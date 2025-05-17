@@ -14,6 +14,17 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  webpack(config, { isServer }) {
+    if (!isServer) {
+      // treat all .node as external so client build won’t choke:
+      config.externals.push((ctx, req, cb) =>
+        /\.node$/.test(req)
+          ? cb(null, "commonjs " + req)
+          : cb()
+      )
+    }
+    return config
+  },
 }
 
 module.exports = nextConfig

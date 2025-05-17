@@ -274,6 +274,13 @@ const translations: Translations = {
 'scheduledMessages.error.dateInPast': 'La fecha programada debe ser en el futuro',
 'scheduledMessages.error.noDaysSelected': 'Por favor selecciona al menos un día de la semana',
 'scheduledMessages.error.generic': 'Ocurrió un error',
+
+'scheduledMessages.error.load': 'Error al cargar mensajes programados',
+
+'scheduledMessages.error': 'Error al cargar mensajes',
+'scheduledMessages.noMessages': 'No hay mensajes programados',
+'scheduledMessages.noNextRun': 'No hay próxima ejecución',
+
   },
   en: {
     // Auth
@@ -539,6 +546,12 @@ const translations: Translations = {
 'scheduledMessages.error.dateInPast': 'Scheduled date must be in the future',
 'scheduledMessages.error.noDaysSelected': 'Please select at least one day of the week',
 'scheduledMessages.error.generic': 'An error occurred',
+
+'scheduledMessages.error.load': 'Failed to load scheduled messages',
+
+'scheduledMessages.error': 'Error loading messages',
+'scheduledMessages.noMessages': 'No scheduled messages',
+'scheduledMessages.noNextRun': 'No upcoming run',
   }
 };
 

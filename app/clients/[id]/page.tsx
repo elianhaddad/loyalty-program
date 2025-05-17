@@ -5,6 +5,7 @@ import { getClientTransactions } from "@/lib/actions/transaction-actions"
 import ClientDetails from "./client-details"
 import TransactionHistory from "./transaction-history"
 import { notFound } from "next/navigation"
+import { t } from "@/lib/i18n";
 
 interface ClientPageProps {
   params: {
@@ -25,14 +26,14 @@ export default async function ClientPage({ params }: ClientPageProps) {
     <Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 3 }}>
         <Typography variant="h4" component="h1">
-          Client Details
+          {t('clients.details')}
         </Typography>
         <Box>
           <Button variant="outlined" component={Link} href={`/clients/${params.id}/edit`} sx={{ mr: 2 }}>
-            Edit Client
+            {t('clients.edit')}
           </Button>
           <Button variant="contained" component={Link} href="/clients">
-            Back to Clients
+            {t('common.back')}
           </Button>
         </Box>
       </Box>
@@ -42,7 +43,7 @@ export default async function ClientPage({ params }: ClientPageProps) {
       </Paper>
 
       <Typography variant="h5" component="h2" gutterBottom>
-        Transaction History
+        {t('transactions.title')}
       </Typography>
 
       <Paper sx={{ p: 3 }}>

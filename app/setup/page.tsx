@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { Typography, Box, Paper, Button, Alert, CircularProgress } from "@mui/material"
 import Link from "next/link"
+import { t } from 'i18n';
 
 export default function SetupPage() {
   const [loading, setLoading] = useState(false)
@@ -17,7 +18,7 @@ export default function SetupPage() {
     } catch (error) {
       setResult({
         success: false,
-        message: "An unexpected error occurred during setup.",
+        message: t('setupPage.error.unexpected'),
       })
     } finally {
       setLoading(false)
@@ -35,11 +36,11 @@ export default function SetupPage() {
     >
       <Paper sx={{ p: 4, maxWidth: 600, width: "100%", textAlign: "center" }}>
         <Typography variant="h4" component="h1" gutterBottom>
-          System Setup
+          {t('setupPage.title')}
         </Typography>
 
         <Typography variant="body1" paragraph>
-          This page will initialize your Points Management System by creating an admin user.
+          {t('setupPage.description')}
         </Typography>
 
         {result && (
@@ -56,11 +57,11 @@ export default function SetupPage() {
               disabled={loading}
               startIcon={loading ? <CircularProgress size={20} /> : null}
             >
-              {loading ? "Setting Up..." : "Initialize System"}
+              {loading ? t('setupPage.button.setup.progress') : t('setupPage.button.setup')}
             </Button>
           ) : (
             <Button variant="contained" component={Link} href="/auth/login">
-              Go to Login
+              {t('setupPage.button.login')}
             </Button>
           )}
         </Box>

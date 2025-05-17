@@ -19,6 +19,7 @@ import {
 } from "@mui/material"
 import { Edit, Search, Visibility } from "@mui/icons-material"
 import Link from "next/link"
+import { t } from '../../lib/i18n';
 
 interface Client {
   _id: string
@@ -70,7 +71,7 @@ export default function ClientList({ initialClients }: ClientListProps) {
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Search by name, DNI or phone..."
+          placeholder={t('clients.search.placeholder')}
           value={searchTerm}
           onChange={handleSearch}
           InputProps={{
@@ -87,11 +88,11 @@ export default function ClientList({ initialClients }: ClientListProps) {
         <Table sx={{ minWidth: 650 }} aria-label="clients table">
           <TableHead>
             <TableRow>
-              <TableCell>DNI</TableCell>
-              <TableCell>Full Name</TableCell>
-              <TableCell>Phone</TableCell>
-              <TableCell align="right">Total Points</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell>{t('clients.dni')}</TableCell>
+              <TableCell>{t('clients.fullName')}</TableCell>
+              <TableCell>{t('clients.phone')}</TableCell>
+              <TableCell align="right">{t('clients.points')}</TableCell>
+              <TableCell align="center">{t('clients.actions')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -102,10 +103,10 @@ export default function ClientList({ initialClients }: ClientListProps) {
                 <TableCell>{client.phone}</TableCell>
                 <TableCell align="right">{client.totalPoints}</TableCell>
                 <TableCell align="center">
-                  <IconButton component={Link} href={`/clients/${client._id}`} aria-label="view client">
+                  <IconButton component={Link} href={`/clients/${client._id}`} aria-label={t('clients.actions.view')}>
                     <Visibility />
                   </IconButton>
-                  <IconButton component={Link} href={`/clients/${client._id}/edit`} aria-label="edit client">
+                  <IconButton component={Link} href={`/clients/${client._id}/edit`} aria-label={t('clients.actions.edit')}>
                     <Edit />
                   </IconButton>
                 </TableCell>

@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState } from "react"
+import { t } from 'lib/i18n';
 import {
   Table,
   TableBody,
@@ -71,7 +72,7 @@ export default function TransactionHistory({ transactions }: TransactionHistoryP
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Search transactions..."
+          placeholder={t('transactionHistory.placeholder')}
           value={searchTerm}
           onChange={handleSearch}
           InputProps={{
@@ -86,18 +87,18 @@ export default function TransactionHistory({ transactions }: TransactionHistoryP
 
       {filteredTransactions.length === 0 ? (
         <Typography variant="body1" sx={{ textAlign: "center", py: 4 }}>
-          No transactions found.
+          {t('transactionHistory.noResults')}
         </Typography>
       ) : (
         <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="transaction history table">
+          <Table sx={{ minWidth: 650 }} aria-label={t('transactionHistory.tableAriaLabel')}>
             <TableHead>
               <TableRow>
-                <TableCell>Date</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell align="right">Amount (ARS)</TableCell>
-                <TableCell align="right">Points</TableCell>
-                <TableCell>Details</TableCell>
+                <TableCell>{t('transactionHistory.date')}</TableCell>
+                <TableCell>{t('transactionHistory.type')}</TableCell>
+                <TableCell align="right">{t('transactionHistory.amount')}</TableCell>
+                <TableCell align="right">{t('transactionHistory.points')}</TableCell>
+                <TableCell>{t('transactionHistory.details')}</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -106,9 +107,9 @@ export default function TransactionHistory({ transactions }: TransactionHistoryP
                   <TableCell>{new Date(transaction.date).toLocaleDateString()}</TableCell>
                   <TableCell>
                     {transaction.type === "purchase" ? (
-                      <Chip icon={<ArrowUpward fontSize="small" />} label="Purchase" color="success" size="small" />
+                      <Chip icon={<ArrowUpward fontSize="small" />} label={t('transactionHistory.purchase')} color="success" size="small" />
                     ) : (
-                      <Chip icon={<ArrowDownward fontSize="small" />} label="Redemption" color="error" size="small" />
+                      <Chip icon={<ArrowDownward fontSize="small" />} label={t('transactionHistory.redemption')} color="error" size="small" />
                     )}
                   </TableCell>
                   <TableCell align="right">
@@ -121,7 +122,7 @@ export default function TransactionHistory({ transactions }: TransactionHistoryP
                       <Typography color="error.main">-{transaction.points}</Typography>
                     )}
                   </TableCell>
-                  <TableCell>{transaction.details || "-"}</TableCell>
+                  <TableCell>{transaction.details || t('transactionHistory.noDetails')}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

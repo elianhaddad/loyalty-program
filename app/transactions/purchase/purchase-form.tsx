@@ -24,6 +24,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { createPurchase } from "@/lib/actions/transaction-actions"
 import { getClients } from "@/lib/actions/client-actions"
 import { getPointsRate } from "@/lib/actions/configuration-actions"
+import { t, getLocale } from "@/lib/i18n"
 
 interface Client {
   _id: string
@@ -52,7 +53,7 @@ export default function PurchaseForm() {
         const clientsData = await getClients()
         setClients(clientsData)
       } catch (err) {
-        setError("Failed to load clients")
+        setError(t('purchaseForm.error.loadClients'))
       }
     }
 
@@ -119,11 +120,11 @@ export default function PurchaseForm() {
 
     try {
       if (!formData.clientId) {
-        throw new Error("Please select a client")
+        throw new Error(t('purchaseForm.error.selectClient'))
       }
 
       if (!formData.amount || isNaN(Number.parseFloat(formData.amount))) {
-        throw new Error("Please enter a valid amount")
+        throw new Error(t('purchaseForm.error.invalidAmount'))
       }
 
       await createPurchase({
@@ -153,20 +154,20 @@ export default function PurchaseForm() {
         )}
 
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid item xs={12} minWidth="350px">
             <Autocomplete
               id="client-select"
               options={clients}
               getOptionLabel={(option) => `${option.fullName} (DNI: ${option.dni})`}
               onChange={handleClientChange}
-              renderInput={(params) => <TextField {...params} required label="Select Client" variant="outlined" />}
+              renderInput={(params) => <TextField {...params} required label={t('purchaseForm.selectClient')} variant="outlined" />}
               disabled={loading}
             />
           </Grid>
 
           <Grid item xs={12} md={6}>
             <FormControl fullWidth required>
-              <InputLabel htmlFor="amount">Amount</InputLabel>
+              <InputLabel htmlFor="amount">{t('purchaseForm.amount')}</InputLabel>
               <OutlinedInput
                 id="amount"
                 name="amount"
@@ -174,7 +175,7 @@ export default function PurchaseForm() {
                 value={formData.amount}
                 onChange={handleAmountChange}
                 startAdornment={<InputAdornment position="start">ARS</InputAdornment>}
-                label="Amount"
+                label={t('purchaseForm.amount')}
                 disabled={loading}
               />
             </FormControl>
@@ -182,7 +183,7 @@ export default function PurchaseForm() {
 
           <Grid item xs={12} md={6}>
             <DatePicker
-              label="Date"
+              label={t('purchaseForm.date')}
               value={formData.date}
               onChange={handleDateChange}
               slotProps={{ textField: { fullWidth: true } }}
@@ -190,10 +191,10 @@ export default function PurchaseForm() {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} minWidth="300px">
             <TextField
               fullWidth
-              label="Details (Optional)"
+              label={t('purchaseForm.detailsOptional')}
               name="details"
               value={formData.details}
               onChange={handleChange}
@@ -216,10 +217,10 @@ export default function PurchaseForm() {
               }}
             >
               <Typography variant="subtitle1">
-                Points Rate for {formData.date.toLocaleDateString("en-US", { weekday: "long" })}: {pointsRate}
+                {t('purchaseForm.pointsRateFor')} {new Intl.DateTimeFormat(getLocale(), { weekday: 'long' }).format(formData.date)}: {pointsRate}
               </Typography>
               <Typography variant="h5" sx={{ mt: 1 }}>
-                Points to be earned: {calculatedPoints}
+                {t('purchaseForm.pointsToBeEarned')}: {calculatedPoints}
               </Typography>
             </Box>
           </Grid>
@@ -227,7 +228,7 @@ export default function PurchaseForm() {
 
         <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}>
           <Button variant="outlined" onClick={() => router.back()} disabled={loading}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button
             type="submit"
@@ -235,7 +236,7 @@ export default function PurchaseForm() {
             disabled={loading}
             startIcon={loading ? <CircularProgress size={20} /> : null}
           >
-            Record Purchase
+            {t('purchaseForm.recordPurchase')}
           </Button>
         </Box>
       </form>

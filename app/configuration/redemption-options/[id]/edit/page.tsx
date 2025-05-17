@@ -2,6 +2,7 @@ import { Typography, Box, Paper } from "@mui/material"
 import RedemptionOptionForm from "../../redemption-option-form"
 import { getRedemptionOptions } from "@/lib/actions/redemption-options-actions"
 import { notFound } from "next/navigation"
+import { t } from "@/lib/i18n"
 
 interface EditRedemptionOptionPageProps {
   params: {
@@ -20,7 +21,7 @@ export default async function EditRedemptionOptionPage({ params }: EditRedemptio
   return (
     <Box>
       <Typography variant="h4" component="h1" gutterBottom>
-        Edit Redemption Option
+        {t('redemptionOption.edit')}
       </Typography>
 
       <Paper sx={{ p: 3, mt: 2 }}>

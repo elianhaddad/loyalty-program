@@ -24,6 +24,7 @@ import { Edit, Search, Delete, Schedule, Repeat } from "@mui/icons-material"
 import Link from "next/link"
 import { deleteScheduledMessage, toggleScheduledMessageActive } from "@/lib/actions/scheduled-message-actions"
 import { useRouter } from "next/navigation"
+import { t } from "@/lib/i18n"
 
 interface ScheduledMessage {
   _id: string
@@ -85,7 +86,7 @@ export default function ScheduledMessagesList({ initialMessages }: ScheduledMess
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this scheduled message?")) return
+    if (!confirm(t('scheduledMessages.list.deleteConfirm'))) return
 
     try {
       await deleteScheduledMessage(id)
@@ -104,14 +105,15 @@ export default function ScheduledMessagesList({ initialMessages }: ScheduledMess
       return new Date(message.scheduledDate).toLocaleString()
     } else if (message.type === "recurring" && message.recurrencePattern) {
       if (message.recurrencePattern === "daily") {
-        return "Daily"
+        return t('scheduledMessages.list.daily');
       } else if (message.recurrencePattern === "weekly" && message.recurrenceDays.length > 0) {
-        return `Weekly on ${message.recurrenceDays.map((day) => day.charAt(0).toUpperCase() + day.slice(1)).join(", ")}`
+        const daysString = message.recurrenceDays.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(", ");
+        return `${t('scheduledMessages.list.weekly')} ${daysString}`;
       } else if (message.recurrencePattern === "monthly") {
-        return "Monthly (1st day)"
+        return t('scheduledMessages.list.monthlyLabel');
       }
     }
-    return "Not scheduled"
+    return t('scheduledMessages.list.notScheduled');
   }
 
   return (
@@ -120,7 +122,7 @@ export default function ScheduledMessagesList({ initialMessages }: ScheduledMess
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Search by name or message content..."
+          placeholder={t('scheduledMessages.list.searchPlaceholder')}
           value={searchTerm}
           onChange={handleSearch}
           InputProps={{
@@ -134,15 +136,15 @@ export default function ScheduledMessagesList({ initialMessages }: ScheduledMess
       </Box>
 
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="scheduled messages table">
+        <Table sx={{ minWidth: 650 }} aria-label={t('scheduledMessages.list.tableAriaLabel')}>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Type</TableCell>
-              <TableCell>Schedule</TableCell>
-              <TableCell>Last Run</TableCell>
-              <TableCell align="center">Active</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell>{t('scheduledMessages.list.column.name')}</TableCell>
+              <TableCell>{t('scheduledMessages.list.column.type')}</TableCell>
+              <TableCell>{t('scheduledMessages.list.column.schedule')}</TableCell>
+              <TableCell>{t('scheduledMessages.list.column.lastRun')}</TableCell>
+              <TableCell align="center">{t('scheduledMessages.list.column.active')}</TableCell>
+              <TableCell align="center">{t('scheduledMessages.list.column.actions')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -152,13 +154,13 @@ export default function ScheduledMessagesList({ initialMessages }: ScheduledMess
                 <TableCell>
                   <Chip
                     icon={message.type === "one-time" ? <Schedule fontSize="small" /> : <Repeat fontSize="small" />}
-                    label={message.type === "one-time" ? "One-time" : "Recurring"}
+                    label={message.type === "one-time" ? t('scheduledMessages.list.oneTime') : t('scheduledMessages.list.recurring')}
                     color={message.type === "one-time" ? "primary" : "secondary"}
                     size="small"
                   />
                 </TableCell>
                 <TableCell>{formatScheduleInfo(message)}</TableCell>
-                <TableCell>{message.lastRun ? new Date(message.lastRun).toLocaleString() : "Never"}</TableCell>
+                <TableCell>{message.lastRun ? new Date(message.lastRun).toLocaleString() : t('scheduledMessages.list.never')}</TableCell>
                 <TableCell align="center">
                   <FormControlLabel
                     control={
@@ -172,17 +174,17 @@ export default function ScheduledMessagesList({ initialMessages }: ScheduledMess
                   />
                 </TableCell>
                 <TableCell align="center">
-                  <Tooltip title="View/Edit Message">
+                  <Tooltip title={t('scheduledMessages.list.viewEdit')}>
                     <IconButton
                       component={Link}
                       href={`/configuration/scheduled-messages/${message._id}`}
-                      aria-label="view message"
+                      aria-label={t('scheduledMessages.list.viewEdit')}
                     >
                       <Edit />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title="Delete Message">
-                    <IconButton color="error" onClick={() => handleDelete(message._id)} aria-label="delete message">
+                  <Tooltip title={t('scheduledMessages.list.delete')}>
+                    <IconButton color="error" onClick={() => handleDelete(message._id)} aria-label={t('scheduledMessages.list.delete')}>
                       <Delete />
                     </IconButton>
                   </Tooltip>

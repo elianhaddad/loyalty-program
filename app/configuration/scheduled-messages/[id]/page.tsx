@@ -2,6 +2,7 @@ import { Typography, Box, Paper } from "@mui/material"
 import ScheduledMessageForm from "../scheduled-message-form"
 import { getScheduledMessageById } from "@/lib/actions/scheduled-message-actions"
 import { notFound } from "next/navigation"
+import { t } from "@/lib/i18n"
 
 interface ScheduledMessagePageProps {
   params: {
@@ -19,7 +20,7 @@ export default async function ScheduledMessagePage({ params }: ScheduledMessageP
   return (
     <Box>
       <Typography variant="h4" component="h1" gutterBottom>
-        Edit Scheduled Message
+        {t('scheduledMessage.edit.title')}
       </Typography>
 
       <Paper sx={{ p: 3, mt: 2 }}>

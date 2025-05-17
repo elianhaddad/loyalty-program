@@ -18,6 +18,7 @@ import {
   type SelectChangeEvent,
 } from "@mui/material"
 import { createUser, updateUser } from "@/lib/actions/auth-actions"
+import { t } from "@/lib/i18n"
 
 interface UserFormProps {
   user?: {
@@ -57,7 +58,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
 
     // Validate passwords match if creating a new user
     if (!user && formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match")
+      setError(t('auth.password.notmatch'))
       setLoading(false)
       return
     }
@@ -84,7 +85,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
       router.push("/admin/users")
       router.refresh()
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred")
+      setError(err instanceof Error ? err.message : t('userForm.error.generic'))
     } finally {
       setLoading(false)
     }
@@ -103,7 +104,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
           <TextField
             required
             fullWidth
-            label="Name"
+            label={t('userForm.name')}
             name="name"
             value={formData.name}
             onChange={handleChange}
@@ -115,7 +116,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
           <TextField
             required
             fullWidth
-            label="Email"
+            label={t('auth.email')}
             name="email"
             type="email"
             value={formData.email}
@@ -127,7 +128,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
         <Grid item xs={12} md={6}>
           <TextField
             fullWidth
-            label={user ? "New Password (leave blank to keep current)" : "Password"}
+            label={user ? t('userForm.newPassword') : t('auth.password')}
             name="password"
             type="password"
             value={formData.password}
@@ -140,7 +141,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
         <Grid item xs={12} md={6}>
           <TextField
             fullWidth
-            label="Confirm Password"
+            label={t('userForm.confirmPassword')}
             name="confirmPassword"
             type="password"
             value={formData.confirmPassword}
@@ -150,7 +151,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
             error={formData.password !== formData.confirmPassword && formData.confirmPassword !== ""}
             helperText={
               formData.password !== formData.confirmPassword && formData.confirmPassword !== ""
-                ? "Passwords do not match"
+                ? t('auth.password.notmatch')
                 : ""
             }
           />
@@ -158,17 +159,17 @@ export default function UserForm({ user }: UserFormProps = {}) {
 
         <Grid item xs={12}>
           <FormControl fullWidth>
-            <InputLabel id="role-select-label">Role</InputLabel>
+            <InputLabel id="role-select-label">{t('userForm.role')}</InputLabel>
             <Select
               labelId="role-select-label"
               id="role-select"
               value={formData.role}
-              label="Role"
+              label={t('userForm.role')}
               onChange={handleRoleChange}
               disabled={loading}
             >
-              <MenuItem value="user">User</MenuItem>
-              <MenuItem value="admin">Admin</MenuItem>
+              <MenuItem value="user">{t('userForm.role.user')}</MenuItem>
+              <MenuItem value="admin">{t('userForm.role.admin')}</MenuItem>
             </Select>
           </FormControl>
         </Grid>
@@ -176,7 +177,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
 
       <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}>
         <Button variant="outlined" onClick={() => router.back()} disabled={loading}>
-          Cancel
+          {t('common.cancel')}
         </Button>
         <Button
           type="submit"
@@ -184,7 +185,7 @@ export default function UserForm({ user }: UserFormProps = {}) {
           disabled={loading}
           startIcon={loading ? <CircularProgress size={20} /> : null}
         >
-          {user?._id ? "Update" : "Create"} User
+          {user?._id ? t('userForm.button.update') : t('userForm.button.create')}
         </Button>
       </Box>
     </form>

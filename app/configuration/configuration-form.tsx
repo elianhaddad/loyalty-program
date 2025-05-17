@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { TextField, Button, Box, Grid, Alert, CircularProgress, Typography, Card, CardContent } from "@mui/material"
 import { updateConfigurations } from "@/lib/actions/configuration-actions"
+import { t } from "@/lib/i18n"
 
 interface Configuration {
   _id?: string
@@ -52,10 +53,10 @@ export default function ConfigurationForm({ initialConfigurations }: Configurati
 
     try {
       await updateConfigurations(configurations)
-      setSuccess("Configuration updated successfully")
+      setSuccess(t('configurationForm.success'));
       router.refresh()
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred")
+      setError(err instanceof Error ? err.message : t('configurationForm.error.generic'));
     } finally {
       setLoading(false)
     }
@@ -80,11 +81,11 @@ export default function ConfigurationForm({ initialConfigurations }: Configurati
       )}
 
       <Typography variant="h6" gutterBottom>
-        Points Conversion Rates
+        {t('configurationForm.title')}
       </Typography>
 
       <Typography variant="body2" color="text.secondary" paragraph>
-        Set how many points a client earns for each Argentine Peso spent on different days of the week.
+        {t('configurationForm.description')}
       </Typography>
 
       <Grid container spacing={3}>
@@ -93,11 +94,11 @@ export default function ConfigurationForm({ initialConfigurations }: Configurati
             <Card>
               <CardContent>
                 <Typography variant="h6" gutterBottom>
-                  {getDayName(config.dayOfWeek)}
+                {t(`configurationForm.days.${config.dayOfWeek}`)}
                 </Typography>
                 <TextField
                   fullWidth
-                  label="Points per ARS"
+                  label={t('configurationForm.label.conversionRate')}
                   type="number"
                   value={config.conversionRate}
                   onChange={(e) => handleRateChange(config.dayOfWeek, e.target.value)}
@@ -120,7 +121,7 @@ export default function ConfigurationForm({ initialConfigurations }: Configurati
           disabled={loading}
           startIcon={loading ? <CircularProgress size={20} /> : null}
         >
-          Save Configuration
+          {t('configurationForm.button.save')}
         </Button>
       </Box>
     </form>

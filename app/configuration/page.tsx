@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Settings, Redeem, Message } from "@mui/icons-material"
 import ConfigurationForm from "./configuration-form"
 import { getConfigurations } from "@/lib/actions/configuration-actions"
+import { t } from "@/lib/i18n"
 
 export default async function ConfigurationPage() {
   const configurations = await getConfigurations()
@@ -10,7 +11,7 @@ export default async function ConfigurationPage() {
   return (
     <Box>
       <Typography variant="h4" component="h1" gutterBottom>
-        System Configuration
+        {t('configurationPage.title')}
       </Typography>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
@@ -27,13 +28,13 @@ export default async function ConfigurationPage() {
           >
             <Settings sx={{ fontSize: 60, mb: 2, color: "primary.main" }} />
             <Typography variant="h6" gutterBottom>
-              Points Configuration
+              {t('configurationPage.card.points.title')}
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph align="center">
-              Set the conversion rate for each day of the week
+              {t('configurationPage.card.points.description')}
             </Typography>
             <Button variant="outlined" component={Link} href="/configuration">
-              Manage Points Rates
+              {t('configurationPage.card.points.button')}
             </Button>
           </Paper>
         </Grid>
@@ -51,13 +52,13 @@ export default async function ConfigurationPage() {
           >
             <Redeem sx={{ fontSize: 60, mb: 2, color: "secondary.main" }} />
             <Typography variant="h6" gutterBottom>
-              Redemption Options
+              {t('configurationPage.card.redemptions.title')}
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph align="center">
-              Manage available redemption options for clients
+              {t('configurationPage.card.redemptions.description')}
             </Typography>
             <Button variant="outlined" component={Link} href="/configuration/redemption-options">
-              Manage Redemptions
+              {t('configurationPage.card.redemptions.button')}
             </Button>
           </Paper>
         </Grid>
@@ -75,20 +76,20 @@ export default async function ConfigurationPage() {
           >
             <Message sx={{ fontSize: 60, mb: 2, color: "success.main" }} />
             <Typography variant="h6" gutterBottom>
-              WhatsApp Messages
+              {t('configurationPage.card.messages.title')}
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph align="center">
-              Configure scheduled and broadcast messages
+              {t('configurationPage.card.messages.description')}
             </Typography>
             <Button variant="outlined" component={Link} href="/configuration/scheduled-messages">
-              Manage Messages
+              {t('configurationPage.card.messages.button')}
             </Button>
           </Paper>
         </Grid>
       </Grid>
 
       <Typography variant="h5" component="h2" gutterBottom>
-        Points Conversion Rates
+        {t('configurationPage.heading.form')}
       </Typography>
 
       <Paper sx={{ p: 3 }}>

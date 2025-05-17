@@ -7,6 +7,7 @@ import clientPromise from "@/lib/mongodb-server"
 import connectDB from "@/lib/db-server"
 import User from "@/lib/models/user"
 import bcrypt from "bcryptjs"
+import { t } from "@/lib/i18n"
 
 // Configuración completa de NextAuth con el adaptador de MongoDB
 const authConfig = {
@@ -15,8 +16,8 @@ const authConfig = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        email: { label: t("auth.email"), type: "email" },
+        password: { label: t("auth.password"), type: "password" },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {

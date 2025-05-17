@@ -1,3 +1,4 @@
+import { t } from "lib/i18n"
 "use client"
 
 import type React from "react"
@@ -67,7 +68,7 @@ export default function UserList({ initialUsers }: UserListProps) {
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Search by name or email..."
+          placeholder={t("userList.searchPlaceholder")}
           value={searchTerm}
           onChange={handleSearch}
           InputProps={{
@@ -84,11 +85,11 @@ export default function UserList({ initialUsers }: UserListProps) {
         <Table sx={{ minWidth: 650 }} aria-label="users table">
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Email</TableCell>
-              <TableCell>Role</TableCell>
-              <TableCell>Created At</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell>{t("userList.name")}</TableCell>
+              <TableCell>{t("userList.email")}</TableCell>
+              <TableCell>{t("userList.role")}</TableCell>
+              <TableCell>{t("userList.createdAt")}</TableCell>
+              <TableCell align="center">{t("userList.actions")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -97,14 +98,18 @@ export default function UserList({ initialUsers }: UserListProps) {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>
-                  <Chip label={user.role} color={user.role === "admin" ? "primary" : "default"} size="small" />
+                  <Chip
+                    label={t(`userForm.role.${user.role}`)}
+                    color={user.role === "admin" ? "primary" : "default"}
+                    size="small"
+                  />
                 </TableCell>
                 <TableCell>{new Date(user.createdAt).toLocaleDateString()}</TableCell>
                 <TableCell align="center">
-                  <IconButton component={Link} href={`/admin/users/${user._id}/edit`} aria-label="edit user">
+                  <IconButton component={Link} href={`/admin/users/${user._id}/edit`} aria-label={t("userList.editAction")}>
                     <Edit />
                   </IconButton>
-                  <IconButton color="error" aria-label="delete user">
+                  <IconButton color="error" aria-label={t("userList.deleteAction")}>
                     <Delete />
                   </IconButton>
                 </TableCell>

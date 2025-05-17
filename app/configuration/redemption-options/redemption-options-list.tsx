@@ -22,6 +22,7 @@ import { Edit, Search, Delete } from "@mui/icons-material"
 import Link from "next/link"
 import { deleteRedemptionOption, updateRedemptionOption } from "@/lib/actions/redemption-options-actions"
 import { useRouter } from "next/navigation"
+import { t } from "@/lib/i18n"
 
 interface RedemptionOption {
   _id: string
@@ -85,7 +86,7 @@ export default function RedemptionOptionsList({ initialOptions }: RedemptionOpti
   }
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Are you sure you want to delete this redemption option?")) return
+    if (!confirm(t('redemptionOptions.delete.confirm'))) return
 
     try {
       await deleteRedemptionOption(id)
@@ -105,7 +106,7 @@ export default function RedemptionOptionsList({ initialOptions }: RedemptionOpti
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Search by details or points..."
+          placeholder={t('redemptionOptions.search')}
           value={searchTerm}
           onChange={handleSearch}
           InputProps={{
@@ -119,13 +120,13 @@ export default function RedemptionOptionsList({ initialOptions }: RedemptionOpti
       </Box>
 
       <TableContainer>
-        <Table sx={{ minWidth: 650 }} aria-label="redemption options table">
+        <Table sx={{ minWidth: 650 }} aria-label={t('redemptionOptions.table.ariaLabel')}>
           <TableHead>
             <TableRow>
-              <TableCell>Points</TableCell>
-              <TableCell>Details</TableCell>
-              <TableCell align="center">Active</TableCell>
-              <TableCell align="center">Actions</TableCell>
+              <TableCell>{t('redemptionOption.points')}</TableCell>
+              <TableCell>{t('redemptionOption.details')}</TableCell>
+              <TableCell align="center">{t('redemptionOption.active')}</TableCell>
+              <TableCell align="center">{t('common.actions')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -149,11 +150,11 @@ export default function RedemptionOptionsList({ initialOptions }: RedemptionOpti
                   <IconButton
                     component={Link}
                     href={`/configuration/redemption-options/${option._id}/edit`}
-                    aria-label="edit option"
+                    aria-label={t('common.edit')}
                   >
                     <Edit />
                   </IconButton>
-                  <IconButton color="error" onClick={() => handleDelete(option._id)} aria-label="delete option">
+                  <IconButton color="error" onClick={() => handleDelete(option._id)} aria-label={t('common.delete')}>
                     <Delete />
                   </IconButton>
                 </TableCell>

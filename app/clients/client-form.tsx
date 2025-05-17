@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { TextField, Button, Box, Grid, Alert, CircularProgress, FormControlLabel, Switch } from "@mui/material"
 import { createClient, updateClient } from "@/lib/actions/client-actions"
+import { t } from "@/lib/i18n";
 
 interface ClientFormProps {
   client?: {
@@ -74,7 +75,7 @@ export default function ClientForm({ client }: ClientFormProps = {}) {
           <TextField
             required
             fullWidth
-            label="DNI"
+            label={t("clients.dni")}
             name="dni"
             value={formData.dni}
             onChange={handleChange}
@@ -86,7 +87,7 @@ export default function ClientForm({ client }: ClientFormProps = {}) {
           <TextField
             required
             fullWidth
-            label="Full Name"
+            label={t("clients.name")}
             name="fullName"
             value={formData.fullName}
             onChange={handleChange}
@@ -98,12 +99,12 @@ export default function ClientForm({ client }: ClientFormProps = {}) {
           <TextField
             required
             fullWidth
-            label="Phone"
+            label={t("clients.phone")}
             name="phone"
             value={formData.phone}
             onChange={handleChange}
             disabled={loading}
-            helperText="Include country code (e.g., +54 for Argentina)"
+            helperText={t("clients.phone.helper")}
           />
         </Grid>
 
@@ -117,14 +118,14 @@ export default function ClientForm({ client }: ClientFormProps = {}) {
                 color="primary"
               />
             }
-            label="Subscribe to WhatsApp messages"
+            label={t("clients.whatsappSubscribed")}
           />
         </Grid>
       </Grid>
 
       <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}>
         <Button variant="outlined" onClick={() => router.back()} disabled={loading}>
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button
           type="submit"
@@ -132,7 +133,7 @@ export default function ClientForm({ client }: ClientFormProps = {}) {
           disabled={loading}
           startIcon={loading ? <CircularProgress size={20} /> : null}
         >
-          {client?._id ? "Update" : "Create"} Client
+          {client?._id ? t("clients.edit") : t("clients.add")}
         </Button>
       </Box>
     </form>

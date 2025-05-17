@@ -2,6 +2,7 @@
 
 import { Typography, Grid, Box, Card, CardContent, Chip } from "@mui/material"
 import { Person, Phone, Badge, Star } from "@mui/icons-material"
+import { t } from '../../../lib/i18n';
 
 interface ClientDetailsProps {
   client: {
@@ -22,27 +23,27 @@ export default function ClientDetails({ client }: ClientDetailsProps) {
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Person color="primary" />
             <Typography variant="body1">
-              <strong>Full Name:</strong> {client.fullName}
+              <strong>{t('clients.name')}:</strong> {client.fullName}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Badge color="primary" />
             <Typography variant="body1">
-              <strong>DNI:</strong> {client.dni}
+              <strong>{t('clients.dni')}:</strong> {client.dni}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Phone color="primary" />
             <Typography variant="body1">
-              <strong>Phone:</strong> {client.phone}
+              <strong>{t('clients.phone')}:</strong> {client.phone}
             </Typography>
           </Box>
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Typography variant="body2" color="text.secondary">
-              Client since: {new Date(client.createdAt).toLocaleDateString()}
+              {t('clients.since')}: {new Date(client.createdAt).toLocaleDateString()}
             </Typography>
           </Box>
         </Box>
@@ -55,7 +56,7 @@ export default function ClientDetails({ client }: ClientDetailsProps) {
             <Typography variant="h4" gutterBottom>
               {client.totalPoints}
             </Typography>
-            <Chip label="Available Points" color="primary" />
+            <Chip label={t('clients.points')} color="primary" />
           </CardContent>
         </Card>
       </Grid>

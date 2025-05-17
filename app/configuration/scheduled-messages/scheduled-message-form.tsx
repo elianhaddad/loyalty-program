@@ -30,6 +30,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { createScheduledMessage, updateScheduledMessage } from "@/lib/actions/scheduled-message-actions"
 import type { MessageType, RecurrencePattern } from "@/lib/models/scheduled-message"
+import { t } from '@/i18n'
 
 interface ScheduledMessageFormProps {
   message?: {
@@ -45,13 +46,13 @@ interface ScheduledMessageFormProps {
 }
 
 const DAYS_OF_WEEK = [
-  { value: "monday", label: "Monday" },
-  { value: "tuesday", label: "Tuesday" },
-  { value: "wednesday", label: "Wednesday" },
-  { value: "thursday", label: "Thursday" },
-  { value: "friday", label: "Friday" },
-  { value: "saturday", label: "Saturday" },
-  { value: "sunday", label: "Sunday" },
+  { value: "monday", label: t('scheduledMessages.days.monday') },
+  { value: "tuesday", label: t('scheduledMessages.days.tuesday') },
+  { value: "wednesday", label: t('scheduledMessages.days.wednesday') },
+  { value: "thursday", label: t('scheduledMessages.days.thursday') },
+  { value: "friday", label: t('scheduledMessages.days.friday') },
+  { value: "saturday", label: t('scheduledMessages.days.saturday') },
+  { value: "sunday", label: t('scheduledMessages.days.sunday') },
 ]
 
 export default function ScheduledMessageForm({ message }: ScheduledMessageFormProps = {}) {
@@ -104,11 +105,11 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
 
     try {
       if (formData.message.trim() === "") {
-        throw new Error("Message content cannot be empty")
+        throw new Error(t('scheduledMessages.error.contentEmpty'))
       }
 
       if (formData.type === "one-time" && formData.scheduledDate < new Date()) {
-        throw new Error("Scheduled date must be in the future")
+        throw new Error(t('scheduledMessages.error.dateInPast'))
       }
 
       if (
@@ -116,7 +117,7 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
         formData.recurrencePattern === "weekly" &&
         formData.recurrenceDays.length === 0
       ) {
-        throw new Error("Please select at least one day of the week")
+        throw new Error(t('scheduledMessages.error.noDaysSelected'))
       }
 
       if (message?._id) {
@@ -151,7 +152,7 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
       router.push("/configuration/scheduled-messages")
       router.refresh()
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred")
+      setError(err instanceof Error ? err.message : t('scheduledMessages.error.generic'))
     } finally {
       setLoading(false)
     }
@@ -171,12 +172,12 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
             <TextField
               required
               fullWidth
-              label="Message Name"
+              label={t('scheduledMessages.form.name')}
               name="name"
               value={formData.name}
               onChange={handleChange}
               disabled={loading}
-              placeholder="E.g., Weekly Promotion, Special Offer, etc."
+              placeholder={t('scheduledMessages.form.namePlaceholder')}
             />
           </Grid>
 
@@ -184,23 +185,23 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
             <TextField
               required
               fullWidth
-              label="Message Content"
+              label={t('scheduledMessages.form.content')}
               name="message"
               value={formData.message}
               onChange={handleChange}
               disabled={loading}
               multiline
               rows={4}
-              placeholder="Enter the message that will be sent to clients..."
+              placeholder={t('scheduledMessages.form.contentPlaceholder')}
             />
           </Grid>
 
           <Grid item xs={12}>
             <FormControl component="fieldset">
-              <FormLabel component="legend">Message Type</FormLabel>
+              <FormLabel component="legend">{t('scheduledMessages.form.type')}</FormLabel>
               <RadioGroup row name="type" value={formData.type} onChange={handleTypeChange}>
-                <FormControlLabel value="one-time" control={<Radio />} label="One-time" disabled={loading} />
-                <FormControlLabel value="recurring" control={<Radio />} label="Recurring" disabled={loading} />
+                <FormControlLabel value="one-time" control={<Radio />} label={t('scheduledMessages.form.oneTime')} disabled={loading} />
+                <FormControlLabel value="recurring" control={<Radio />} label={t('scheduledMessages.form.recurring')} disabled={loading} />
               </RadioGroup>
             </FormControl>
           </Grid>
@@ -208,7 +209,7 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
           {formData.type === "one-time" && (
             <Grid item xs={12} md={6}>
               <DateTimePicker
-                label="Scheduled Date & Time"
+                label={t('scheduledMessages.form.scheduledDate')}
                 value={formData.scheduledDate}
                 onChange={handleDateChange}
                 slotProps={{ textField: { fullWidth: true } }}
@@ -221,17 +222,17 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
             <>
               <Grid item xs={12} md={6}>
                 <FormControl fullWidth disabled={loading}>
-                  <InputLabel id="recurrence-pattern-label">Recurrence Pattern</InputLabel>
+                  <InputLabel id="recurrence-pattern-label">{t('scheduledMessages.form.recurrencePattern')}</InputLabel>
                   <Select
                     labelId="recurrence-pattern-label"
                     id="recurrence-pattern"
                     value={formData.recurrencePattern}
                     onChange={handleRecurrencePatternChange}
-                    label="Recurrence Pattern"
+                    label={t('scheduledMessages.form.recurrencePattern')}
                   >
-                    <MenuItem value="daily">Daily</MenuItem>
-                    <MenuItem value="weekly">Weekly</MenuItem>
-                    <MenuItem value="monthly">Monthly (1st day)</MenuItem>
+                    <MenuItem value="daily">{t('scheduledMessages.form.daily')}</MenuItem>
+                    <MenuItem value="weekly">{t('scheduledMessages.form.weekly')}</MenuItem>
+                    <MenuItem value="monthly">{t('scheduledMessages.form.monthly')}</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -239,14 +240,14 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
               {formData.recurrencePattern === "weekly" && (
                 <Grid item xs={12}>
                   <FormControl fullWidth disabled={loading}>
-                    <InputLabel id="days-of-week-label">Days of Week</InputLabel>
+                    <InputLabel id="days-of-week-label">{t('scheduledMessages.form.daysOfWeek')}</InputLabel>
                     <Select
                       labelId="days-of-week-label"
                       id="days-of-week"
                       multiple
                       value={formData.recurrenceDays}
                       onChange={handleDaysChange}
-                      input={<OutlinedInput label="Days of Week" />}
+                      input={<OutlinedInput label={t('scheduledMessages.form.daysOfWeek')} />}
                       renderValue={(selected) =>
                         (selected as string[]).map((day) => day.charAt(0).toUpperCase() + day.slice(1)).join(", ")
                       }
@@ -277,7 +278,7 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
                       disabled={loading}
                     />
                   }
-                  label="Active"
+                  label={t('scheduledMessages.form.active')}
                 />
               </FormGroup>
             </Grid>
@@ -286,7 +287,7 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
 
         <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}>
           <Button variant="outlined" onClick={() => router.back()} disabled={loading}>
-            Cancel
+            {t('common.cancel')}
           </Button>
           <Button
             type="submit"
@@ -294,7 +295,7 @@ export default function ScheduledMessageForm({ message }: ScheduledMessageFormPr
             disabled={loading}
             startIcon={loading ? <CircularProgress size={20} /> : null}
           >
-            {message?._id ? "Update" : "Create"} Message
+            {t('common.save')}
           </Button>
         </Box>
       </form>

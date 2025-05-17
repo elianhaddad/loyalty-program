@@ -35,6 +35,7 @@ import {
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { signOut, useSession } from "next-auth/react"
+import { t } from "@/lib/i18n"
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false)
@@ -48,16 +49,16 @@ export default function Navbar() {
   const isAdmin = session?.user?.role === "admin"
 
   const menuItems = [
-    { text: "Home", icon: <Home />, path: "/" },
-    { text: "Clients", icon: <Person />, path: "/clients" },
-    { text: "Purchases", icon: <ShoppingCart />, path: "/transactions/purchase" },
-    { text: "Redemptions", icon: <Redeem />, path: "/transactions/redemption" },
-    { text: "Configuration", icon: <Settings />, path: "/configuration" },
+    { text: t('navbar.home'), icon: <Home />, path: "/" },
+    { text: t('navbar.clients'), icon: <Person />, path: "/clients" },
+    { text: t('navbar.purchases'), icon: <ShoppingCart />, path: "/transactions/purchase" },
+    { text: t('navbar.redemptions'), icon: <Redeem />, path: "/transactions/redemption" },
+    { text: t('navbar.configuration'), icon: <Settings />, path: "/configuration" },
   ]
 
   // Add admin menu items if user is admin
   if (isAdmin) {
-    menuItems.push({ text: "User Management", icon: <SupervisorAccount />, path: "/admin/users" })
+    menuItems.push({ text: t('navbar.userManagement'), icon: <SupervisorAccount />, path: "/admin/users" })
   }
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -94,7 +95,7 @@ export default function Navbar() {
             </IconButton>
           )}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Points System
+            {t('navbar.title')}
           </Typography>
 
           {!isMobile && (
@@ -148,7 +149,7 @@ export default function Navbar() {
               >
                 <MenuItem disabled>
                   <Typography variant="body2">
-                    Signed in as <strong>{session.user.email}</strong>
+                    {t('navbar.signedInAs')} <strong>{session.user.email}</strong>
                   </Typography>
                 </MenuItem>
                 <Divider />
@@ -156,13 +157,13 @@ export default function Navbar() {
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>
-                  Logout
+                  {t('navbar.logout')}
                 </MenuItem>
               </Menu>
             </>
           ) : (
             <Button color="inherit" component={Link} href="/auth/login">
-              Login
+              {t('navbar.login')}
             </Button>
           )}
         </Toolbar>

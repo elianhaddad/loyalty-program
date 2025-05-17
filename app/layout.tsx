@@ -8,6 +8,7 @@ import "./globals.css"
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth";
 import ClientWrapper from "@/components/client-wrapper"
+import { LanguageSwitcher } from "@/components/language-switcher"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -31,6 +32,9 @@ export default async function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <ClientWrapper session={session}>
+              <header className="p-4 flex justify-end">
+                <LanguageSwitcher />
+              </header>
               <main style={{ padding: "20px" }}>{children}</main>
             </ClientWrapper>
           </ThemeProvider>

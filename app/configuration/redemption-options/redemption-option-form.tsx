@@ -6,6 +6,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { TextField, Button, Box, Grid, Alert, CircularProgress, FormControlLabel, Switch } from "@mui/material"
 import { createRedemptionOption, updateRedemptionOption } from "@/lib/actions/redemption-options-actions"
+import { t } from "@/lib/i18n"
 
 interface RedemptionOptionFormProps {
   option?: {
@@ -85,7 +86,7 @@ export default function RedemptionOptionForm({ option }: RedemptionOptionFormPro
           <TextField
             required
             fullWidth
-            label="Points"
+            label={t('redemptionOption.points')}
             name="points"
             type="number"
             value={formData.points}
@@ -107,7 +108,7 @@ export default function RedemptionOptionForm({ option }: RedemptionOptionFormPro
                   disabled={loading}
                 />
               }
-              label="Active"
+              label={t('redemptionOption.active')}
             />
           )}
         </Grid>
@@ -116,21 +117,21 @@ export default function RedemptionOptionForm({ option }: RedemptionOptionFormPro
           <TextField
             required
             fullWidth
-            label="Details"
+            label={t('redemptionOption.details')}
             name="details"
             value={formData.details}
             onChange={handleChange}
             disabled={loading}
             multiline
             rows={3}
-            placeholder="Describe the redemption option..."
+            placeholder={t('redemptionOption.details.placeholder')}
           />
         </Grid>
       </Grid>
 
       <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}>
         <Button variant="outlined" onClick={() => router.back()} disabled={loading}>
-          Cancel
+          {t('common.cancel')}
         </Button>
         <Button
           type="submit"
@@ -138,7 +139,7 @@ export default function RedemptionOptionForm({ option }: RedemptionOptionFormPro
           disabled={loading}
           startIcon={loading ? <CircularProgress size={20} /> : null}
         >
-          {option?._id ? "Update" : "Create"} Redemption Option
+          {option?._id ? t('redemptionOption.button.update') : t('redemptionOption.button.create')}
         </Button>
       </Box>
     </form>

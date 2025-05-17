@@ -6,6 +6,7 @@ import { useState } from "react"
 import { TextField, Button, Alert, CircularProgress } from "@mui/material"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
+import { t } from '../../lib/i18n';
 
 export default function LoginForm() {
   const router = useRouter()
@@ -35,14 +36,14 @@ export default function LoginForm() {
       })
 
       if (result?.error) {
-        setError("Invalid email or password")
+        setError(t('auth.error.credentialsSignin'));
         return
       }
 
       router.push("/")
       router.refresh()
     } catch (err) {
-      setError("An unexpected error occurred")
+      setError(t('auth.error.unexpected'));
     } finally {
       setLoading(false)
     }
@@ -59,7 +60,7 @@ export default function LoginForm() {
       <TextField
         required
         fullWidth
-        label="Email"
+        label={t('auth.email')}
         name="email"
         type="email"
         value={formData.email}
@@ -71,7 +72,7 @@ export default function LoginForm() {
       <TextField
         required
         fullWidth
-        label="Password"
+        label={t('auth.password')}
         name="password"
         type="password"
         value={formData.password}
@@ -88,7 +89,7 @@ export default function LoginForm() {
         startIcon={loading ? <CircularProgress size={20} /> : null}
         sx={{ mt: 3, mb: 2 }}
       >
-        Sign In
+        {t('auth.login')}
       </Button>
     </form>
   )

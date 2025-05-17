@@ -1,6 +1,7 @@
 import { Typography, Box, Paper, Button } from "@mui/material"
 import Link from "next/link"
 import { ErrorOutline } from "@mui/icons-material"
+import { t } from '../../../lib/i18n';
 
 export default function AuthErrorPage({
   searchParams,
@@ -9,18 +10,18 @@ export default function AuthErrorPage({
 }) {
   const error = searchParams.error || "An unknown error occurred"
 
-  let errorMessage = "An error occurred during authentication."
+  let errorMessage = t('auth.error.generic');
 
   switch (error) {
     case "CredentialsSignin":
-      errorMessage = "Invalid email or password. Please try again."
+      errorMessage = t('auth.error.credentialsSignin');
       break
     case "AccessDenied":
-      errorMessage = "You do not have permission to access this resource."
+      errorMessage = t('auth.error.accessDenied');
       break
     case "Default":
     default:
-      errorMessage = "An unexpected error occurred. Please try again later."
+      errorMessage = t('auth.error.unexpected');
   }
 
   return (
@@ -36,14 +37,14 @@ export default function AuthErrorPage({
       <Paper sx={{ p: 4, maxWidth: 500, width: "100%", textAlign: "center" }}>
         <ErrorOutline color="error" sx={{ fontSize: 60, mb: 2 }} />
         <Typography variant="h4" component="h1" gutterBottom>
-          Authentication Error
+          {t('auth.error.title')}
         </Typography>
         <Typography variant="body1" paragraph>
           {errorMessage}
         </Typography>
         <Box sx={{ mt: 3, display: "flex", justifyContent: "center", gap: 2 }}>
           <Button variant="contained" component={Link} href="/auth/login">
-            Back to Login
+            {t('common.back')}
           </Button>
         </Box>
       </Paper>

@@ -10,6 +10,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { createRedemption } from "@/lib/actions/transaction-actions"
 import { getClients } from "@/lib/actions/client-actions"
+import { t } from "@/lib/i18n"
 
 interface Client {
   _id: string
@@ -111,13 +112,13 @@ export default function RedemptionForm() {
         )}
 
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid item xs={12} minWidth="350px">
             <Autocomplete
               id="client-select"
               options={clients}
               getOptionLabel={(option) => `${option.fullName} (DNI: ${option.dni})`}
               onChange={handleClientChange}
-              renderInput={(params) => <TextField {...params} required label="Select Client" variant="outlined" />}
+              renderInput={(params) => <TextField {...params} required label={t("redemptionForm.selectClient")} variant="outlined" />}
               disabled={loading}
             />
           </Grid>
@@ -133,7 +134,7 @@ export default function RedemptionForm() {
                 }}
               >
                 <Typography variant="subtitle1">
-                  Available Points: <strong>{selectedClient.totalPoints}</strong>
+                  {t("redemptionForm.availablePoints")} <strong>{selectedClient.totalPoints}</strong>
                 </Typography>
               </Box>
             </Grid>
@@ -143,7 +144,7 @@ export default function RedemptionForm() {
             <TextField
               required
               fullWidth
-              label="Points to Redeem"
+              label={t("redemptionForm.pointsToRedeem")}
               name="points"
               type="number"
               value={formData.points}
@@ -152,7 +153,7 @@ export default function RedemptionForm() {
               error={selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints}
               helperText={
                 selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints
-                  ? "Exceeds available points"
+                  ? t("redemptionForm.error.exceedsPoints")
                   : ""
               }
             />
@@ -160,7 +161,7 @@ export default function RedemptionForm() {
 
           <Grid item xs={12} md={6}>
             <DatePicker
-              label="Date"
+              label={t("common.date")}
               value={formData.date}
               onChange={handleDateChange}
               slotProps={{ textField: { fullWidth: true } }}
@@ -168,17 +169,18 @@ export default function RedemptionForm() {
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} minWidth="300px">
             <TextField
               required
+              sx={{minWidth: "400px" }}
               fullWidth
-              label="Redemption Details"
+              label={t("redemptionForm.details")}
               name="details"
               value={formData.details}
               onChange={handleChange}
               multiline
               rows={3}
-              placeholder="Describe what the client is redeeming points for..."
+              placeholder={t("redemptionForm.details.placeholder")}
               disabled={loading}
             />
           </Grid>
@@ -186,7 +188,7 @@ export default function RedemptionForm() {
 
         <Box sx={{ mt: 3, display: "flex", justifyContent: "flex-end", gap: 2 }}>
           <Button variant="outlined" onClick={() => router.back()} disabled={loading}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button
             type="submit"
@@ -194,7 +196,7 @@ export default function RedemptionForm() {
             disabled={loading || (selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints)}
             startIcon={loading ? <CircularProgress size={20} /> : null}
           >
-            Record Redemption
+            {t("redemptionForm.record")}
           </Button>
         </Box>
       </form>

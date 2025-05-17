@@ -98,7 +98,7 @@ export default function ConfigurationForm({ initialConfigurations }: Configurati
                 </Typography>
                 <TextField
                   fullWidth
-                  label={t('configurationForm.label.conversionRate')}
+                  label={t('configurationForm.label.pesosPerPoint')}
                   type="number"
                   value={config.conversionRate}
                   onChange={(e) => handleRateChange(config.dayOfWeek, e.target.value)}

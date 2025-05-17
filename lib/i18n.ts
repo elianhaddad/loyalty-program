@@ -163,6 +163,8 @@ const translations: Translations = {
 'configurationForm.days.saturday': 'Sábado',
 'configurationForm.days.sunday': 'Domingo',
 
+'configurationForm.label.pesosPerPoint': 'Pesos por Punto',
+
     // Common
     'common.save': 'Guardar',
     'common.cancel': 'Cancelar',
@@ -430,6 +432,8 @@ const translations: Translations = {
 'configurationPage.card.messages.button': 'Manage Messages',
 'configurationPage.heading.form': 'Points Conversion Rates',
     
+'configurationForm.label.pesosPerPoint': 'Pesos per Point',
+
     // Common
     'common.save': 'Save',
     'common.cancel': 'Cancel',

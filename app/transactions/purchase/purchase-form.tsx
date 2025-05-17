@@ -70,7 +70,7 @@ export default function PurchaseForm() {
 
           // Calculate points based on amount and rate
           if (formData.amount) {
-            const points = Math.floor(Number.parseFloat(formData.amount) * rate)
+            const points = Math.floor(Number.parseFloat(formData.amount) / rate)
             setCalculatedPoints(points)
           }
         } catch (err) {
@@ -94,7 +94,7 @@ export default function PurchaseForm() {
     setFormData((prev) => ({ ...prev, amount }))
 
     if (amount && pointsRate) {
-      const points = Math.floor(Number.parseFloat(amount) * pointsRate)
+      const points = Math.floor(Number.parseFloat(amount) / pointsRate)
       setCalculatedPoints(points)
     } else {
       setCalculatedPoints(0)

@@ -15,7 +15,7 @@ export default async function ConfigurationPage() {
       </Typography>
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
-        <Grid item xs={12} md={4}>
+        {/* <Grid item xs={12} md={4}>
           <Paper
             sx={{
               p: 3,
@@ -37,7 +37,7 @@ export default async function ConfigurationPage() {
               {t('configurationPage.card.points.button')}
             </Button>
           </Paper>
-        </Grid>
+        </Grid> */}
 
         <Grid item xs={12} md={4}>
           <Paper

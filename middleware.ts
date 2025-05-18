@@ -10,11 +10,6 @@ export default withAuth((req) => {
     return NextResponse.next()
   }
 
-  console.log('logelian ', nextUrl.pathname);
-  if (nextUrl.pathname === "/api/scheduled-messages") {
-    return NextResponse.next()
-  }
-
   const isAuthRoute = nextUrl.pathname.startsWith("/auth") || nextUrl.pathname.startsWith("/api/auth")
   const isApiRoute = nextUrl.pathname.startsWith("/api")
   const isAdminRoute = nextUrl.pathname.startsWith("/admin")

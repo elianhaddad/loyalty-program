@@ -63,6 +63,7 @@ const translations: Translations = {
 'clients.actions': 'Acciones',
 'clients.actions.view': 'Ver Cliente',
 'clients.actions.edit': 'Editar Cliente',
+'clients.since': 'Cliente desde',
 
 'clients.whatsappSubscribed': 'Suscribirse a mensajes de WhatsApp',
 'clients.phone.helper': 'Incluir código de país (ej. +54 para Argentina)',
@@ -124,6 +125,7 @@ const translations: Translations = {
 'redemptionOptions.table.ariaLabel': 'tabla de opciones de canje',
 'redemptionOptions.delete.confirm': '¿Estás seguro de que deseas eliminar esta opción de canje?',
 'common.actions': 'Acciones',
+'redemptionForm.selectOption': 'Seleccionar canje',
 
     // Configuration
     'config.title': 'Configuración',
@@ -339,6 +341,7 @@ const translations: Translations = {
 'clients.actions': 'Actions',
 'clients.actions.view': 'View Client',
 'clients.actions.edit': 'Edit Client',
+'clients.since': 'Client since',
 
 
 'configurationForm.days.monday': 'Monday',
@@ -489,6 +492,8 @@ const translations: Translations = {
 'redemptionForm.details.placeholder': 'Describe what the client is redeeming points for...',
 'redemptionForm.record': 'Record Redemption',
 'redemptionForm.error.exceedsPoints': 'Exceeds available points',
+
+'redemptionForm.selectOption': 'Select option',
 
     'setupPage.title': 'System Setup',
 'setupPage.description': 'This page will initialize your Points Management System by creating an admin user.',

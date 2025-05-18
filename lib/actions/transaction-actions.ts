@@ -5,7 +5,7 @@ import Transaction from "../models/transaction"
 import Client from "../models/client"
 import { revalidatePath } from "next/cache"
 import mongoose from "mongoose"
-import { sendPurchaseNotification } from "../services/whatsapp-service"
+// import { sendPurchaseNotification } from "../services/whatsapp-service"
 import { getActiveRedemptionOptions } from "./redemption-options-actions"
 
 export async function getClientTransactions(clientId: string) {
@@ -59,7 +59,7 @@ export async function createPurchase(data: {
     // Send WhatsApp notification if client is subscribed
     if (client.whatsappSubscribed) {
       const availableRedemptions = await getActiveRedemptionOptions()
-      await sendPurchaseNotification(client, data.points, availableRedemptions)
+      // await sendPurchaseNotification(client, data.points, availableRedemptions)
     }
 
     return JSON.parse(JSON.stringify(transaction))

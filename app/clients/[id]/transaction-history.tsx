@@ -3,7 +3,6 @@
 import type React from "react"
 
 import { useState } from "react"
-import { t } from 'lib/i18n';
 import {
   Table,
   TableBody,
@@ -19,6 +18,7 @@ import {
   InputAdornment,
 } from "@mui/material"
 import { Search, ArrowUpward, ArrowDownward } from "@mui/icons-material"
+import { t } from "@/lib/i18n"
 
 interface Transaction {
   _id: string

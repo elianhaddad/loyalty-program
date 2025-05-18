@@ -58,7 +58,7 @@ export default function Navbar() {
 
   // Add admin menu items if user is admin
   if (isAdmin) {
-    menuItems.push({ text: t('navbar.userManagement'), icon: <SupervisorAccount />, path: "/admin/users" })
+    // menuItems.push({ text: t('navbar.userManagement'), icon: <SupervisorAccount />, path: "/admin/users" })
   }
 
   const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {

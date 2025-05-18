@@ -10,6 +10,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider"
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns"
 import { createRedemption } from "@/lib/actions/transaction-actions"
 import { getClients } from "@/lib/actions/client-actions"
+import { getActiveRedemptionOptions } from "@/lib/actions/redemption-options-actions"
 import { t } from "@/lib/i18n"
 
 interface Client {
@@ -19,12 +20,22 @@ interface Client {
   totalPoints: number
 }
 
+type RedemptionOption = {
+  _id: string
+  points: number
+  details: string
+  active?: boolean
+}
+
 export default function RedemptionForm() {
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [clients, setClients] = useState<Client[]>([])
   const [selectedClient, setSelectedClient] = useState<Client | null>(null)
+
+  const [redemptionOptions, setRedemptionOptions] = useState<RedemptionOption[]>([])
+  const [selectedOption, setSelectedOption] = useState<RedemptionOption | null>(null)
 
   const [formData, setFormData] = useState({
     clientId: "",
@@ -34,16 +45,17 @@ export default function RedemptionForm() {
   })
 
   useEffect(() => {
-    const loadClients = async () => {
+    const loadClientsAndOptions = async () => {
       try {
         const clientsData = await getClients()
         setClients(clientsData)
+        const optionsData = await getActiveRedemptionOptions()
+        setRedemptionOptions(optionsData)
       } catch (err) {
-        setError("Failed to load clients")
+        setError("Failed to load clients or redemption options")
       }
     }
-
-    loadClients()
+    loadClientsAndOptions()
   }, [])
 
   const handleClientChange = (event: any, newValue: Client | null) => {
@@ -51,6 +63,15 @@ export default function RedemptionForm() {
     setFormData((prev) => ({
       ...prev,
       clientId: newValue?._id || "",
+    }))
+  }
+
+  const handleOptionChange = (event: any, newValue: RedemptionOption | null) => {
+    setSelectedOption(newValue)
+    setFormData((prev) => ({
+      ...prev,
+      points: newValue ? String(newValue.points) : "",
+      details: newValue ? newValue.details : "",
     }))
   }
 
@@ -123,6 +144,17 @@ export default function RedemptionForm() {
             />
           </Grid>
 
+          <Grid item xs={12} minWidth="350px">
+            <Autocomplete
+              id="option-select"
+              options={redemptionOptions}
+              getOptionLabel={(o) => `${o.details} (${o.points} pts)`}
+              onChange={handleOptionChange}
+              renderInput={(params) => <TextField {...params} label={t("redemptionForm.selectOption")} variant="outlined" />}
+              disabled={loading}
+            />
+          </Grid>
+
           {selectedClient && (
             <Grid item xs={12}>
               <Box
@@ -141,25 +173,6 @@ export default function RedemptionForm() {
           )}
 
           <Grid item xs={12} md={6}>
-            <TextField
-              required
-              fullWidth
-              label={t("redemptionForm.pointsToRedeem")}
-              name="points"
-              type="number"
-              value={formData.points}
-              onChange={handleChange}
-              disabled={loading}
-              error={selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints}
-              helperText={
-                selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints
-                  ? t("redemptionForm.error.exceedsPoints")
-                  : ""
-              }
-            />
-          </Grid>
-
-          <Grid item xs={12} md={6}>
             <DatePicker
               label={t("common.date")}
               value={formData.date}
@@ -169,10 +182,28 @@ export default function RedemptionForm() {
             />
           </Grid>
 
-          <Grid item xs={12} minWidth="300px">
+          <Grid item xs={12} md={6}>
             <TextField
               required
-              sx={{minWidth: "400px" }}
+              fullWidth
+              label={t("redemptionForm.pointsToRedeem")}
+              name="points"
+              type="number"
+              value={formData.points}
+              onChange={handleChange}
+              disabled={loading || !!selectedOption}
+              error={selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints}
+              helperText={
+                selectedClient && Number.parseInt(formData.points) > selectedClient.totalPoints
+                  ? t("redemptionForm.error.exceedsPoints")
+                  : ""
+              }
+            />
+          </Grid>
+
+          <Grid item xs={12} minWidth="300px">
+            <TextField
+              sx={{ minWidth: "400px" }}
               fullWidth
               label={t("redemptionForm.details")}
               name="details"
@@ -180,8 +211,9 @@ export default function RedemptionForm() {
               onChange={handleChange}
               multiline
               rows={3}
+              required
               placeholder={t("redemptionForm.details.placeholder")}
-              disabled={loading}
+              disabled={loading || !!selectedOption}
             />
           </Grid>
         </Grid>

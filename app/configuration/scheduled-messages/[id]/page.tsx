@@ -4,15 +4,10 @@ import { getScheduledMessageById } from "@/lib/actions/scheduled-message-actions
 import { notFound } from "next/navigation"
 import { t } from "@/lib/i18n"
 
-interface ScheduledMessagePageProps {
-  params: {
-    id: string
-  }
-}
-
-export default async function ScheduledMessagePage({ params }: ScheduledMessagePageProps) {
-  const message = await getScheduledMessageById(params.id)
-
+export default async function ScheduledMessagePage(props: PromiseLike<{ params: { id: any } }> | { params: { id: any } }) {
+  const { params: { id } } = await props;
+  const message = await getScheduledMessageById(id);
+  
   if (!message) {
     notFound()
   }

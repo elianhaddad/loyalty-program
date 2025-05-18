@@ -1,4 +1,3 @@
-import { t } from "lib/i18n"
 "use client"
 
 import type React from "react"
@@ -20,6 +19,7 @@ import {
 } from "@mui/material"
 import { Edit, Search, Delete } from "@mui/icons-material"
 import Link from "next/link"
+import { t } from "@/lib/i18n"
 
 interface User {
   _id: string

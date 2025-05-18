@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { Typography, Box, Paper, Button, Alert, CircularProgress } from "@mui/material"
 import Link from "next/link"
-import { t } from 'i18n';
+import { t } from "@/lib/i18n"
 
 export default function SetupPage() {
   const [loading, setLoading] = useState(false)
